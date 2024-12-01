@@ -1,0 +1,119 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #1e90ff, #ff7f50);
+  overflow: hidden;
+}
+
+h1 {
+  font-size: 3rem;
+  color: #fff;
+  margin-bottom: 20px;
+  animation: fadeIn 1.5s forwards, bounce 1s infinite alternate;
+}
+@keyframes bounce {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-10px);
+  }
+}
+
+.background-animation {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
+}
+.background-animation span {
+  position: absolute;
+  display: block;
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  animation: animate 25s linear infinite;
+}
+@keyframes animate {
+  0% {
+    transform: scale(0) translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(-100vh);
+    opacity: 0;
+  }
+}
+
+.login-box {
+  position: relative;
+  width: 350px;
+  padding: 40px;
+  background: #fff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  text-align: center;
+  overflow: hidden;
+}
+.login-box h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+.login-box input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0 5px 0;
+  font-size: 18px;
+  text-align: center;
+  border: 2px solid #1e90ff;
+  border-radius: 5px;
+  outline: none;
+  transition: 0.3s;
+}
+.login-box input:focus {
+  border-color: #ff7f50;
+}
+.login-box button {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #1e90ff;
+  border: none;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.login-box button:hover {
+  background-color: #ff7f50;
+}
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 5px;
+  display: none;
+}
+.clock {
+  font-size: 1.5rem;
+  color: #1e90ff;
+  margin-bottom: 10px;
+  animation: fadeIn 1s forwards;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

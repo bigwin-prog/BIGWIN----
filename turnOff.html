@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Disable Developer Tools and Right Click</title>
+  <script>
+    // Disable right-click
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+      alert("Right-click is disabled on this webpage.");
+    });
+
+    // Disable certain key combinations
+    document.addEventListener('keydown', function(e) {
+      // Disable F12 (Dev Tools), Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, and Ctrl+U (View Source)
+      if (
+        e.key === "F12" ||
+        (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C")) ||
+        (e.ctrlKey && e.key === "U")
+      ) {
+        e.preventDefault();
+        alert("Developer tools are disabled on this webpage.");
+      }
+    });
+
+    // Attempt to detect and disable DevTools (Basic method, not foolproof)
+    setInterval(function() {
+      const devtools = /./;
+      devtools.toString = function() {
+        console.log("DevTools detected!");
+        alert("Please close the developer tools.");
+        window.location.reload(); // Optional: reload the page
+      };
+      console.log(devtools);
+    }, 1000);
+  </script>
+</head>
+<body>
+  <h1>Welcome</h1>
+  <p>Right-click and developer tools are disabled on this page.</p>
+</body>
+</html>
