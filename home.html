@@ -13,23 +13,14 @@
     </div>
 
     <div class="button-container">
-      <button class="button" onclick="window.location.href='withdraw.html'">
+      <button class="button" onclick="window.location.href='Withdraw.html'">
         Withdraw
       </button>
       <button class="button" onclick="openProfileModal()">Profile</button>
       <button class="button" onclick="openProfileModal()">Invite</button>
 
     </div>
-    <div class="containers">
-      <div class="daily-bonus-titles">Daily Bonus</div>
-      <button
-        id="claim-bonus"
-        class="bonus-buttons"
-        onclick="claimDailyBonus()"
-      >
-        Claim
-      </button>
-      <p id="bonus-messages"></p>
+    
     </div>
     <div id="profile-modal" class="modal">
       <div class="modal-content">
@@ -37,93 +28,14 @@
         <button class="close-button" onclick="closeProfile()">Close</button>
       </div>
     </div>
-
-<!-- Level 1 -->
-<div class="container" id="level-1">
-  <h2>Level 1</h2>
-  <p>Amount: Free</p>
-  <p>Duration: 1 hour</p>
-  <p>Win Amount: Rs 20</p>
-  <input
-    id="input-1"
-    class="input-code"
-    type="text"
-    placeholder="Enter 5-digit code after payment"
-  />
-  <div class="button-container">
-    <button class="button" onclick="verifyCode(1, 3600, 20)">Start</button>
-    <button class="button" onclick="window.location.href='deposit.html'">Buy</button>
-  </div>
-  <div class="error" id="error-1"></div>
-  <div class="timer" id="timer1"></div>
-</div>
-
-<!-- Level 2 -->
-<div class="container" id="level-2">
-  <h2>Level 2</h2>
-  <p>Amount: Free</p>
-  <p>Duration: 2 hour</p>
-  <p>Win Amount: Rs 30</p>
-  <input
-    id="input-2"
-    class="input-code"
-    type="text"
-    placeholder="Enter 5-digit code after payment"
-  />
-  <div class="button-container">
-    <button class="button" onclick="verifyCode(2, 7200, 30)">Start</button>
-    <button class="button" onclick="window.location.href='deposit.html'">Buy</button>
-  </div>
-  <div class="error" id="error-2"></div>
-  <div class="timer" id="timer2"></div>
-</div>
-
-<!-- Level 3 -->
-<div class="container" id="level-3">
-  <h2>Level 3</h2>
-  <p>Amount: Rs 99</p>
-  <p>Duration: 2 hour</p>
-  <p>Win Amount: Rs 159</p>
-  <input
-    id="input-3"
-    class="input-code"
-    type="text"
-    placeholder="Enter 5-digit code after payment"
-  />
-  <div class="button-container">
-    <button class="button" onclick="verifyCode(3, 7200, 1599)">Start</button>
-    <button class="button" onclick="window.location.href='deposit.html'">Buy</button>
-  </div>
-  <div class="error" id="error-3"></div>
-  <div class="timer" id="timer3"></div>
-</div>
-
-<!-- Level 4 -->
-<div class="container" id="level-4">
-  <h2>Level 4</h2>
-  <p>Amount: Rs 222 (Invest to play)</p>
-  <p>Duration: 2 hour  OFFER</p>
-  <p>Win Amount: Rs 299</p>
-  <input
-    id="input-4"
-    class="input-code"
-    type="text"
-    placeholder="Enter 5-digit code after payment"
-  />
-  <div class="button-container">
-    <button class="button" onclick="verifyCode(4, 7200, 1000)">Start</button>
-    <button class="button" onclick="window.location.href='deposit.html'">Buy</button>
-  </div>
-  <div class="error" id="error-4"></div>
-  <div class="timer" id="timer4"></div>
-</div>
+<!-- -->
 
 <!-- Level 5 -->
 <div class="container" id="level-5">
   <h2>Level 5</h2>
-  <p>Amount: Rs 1222 OFFER</p>
-  <p>Duration: 2 hour </p>
-  <p>Win Amount: Rs 2999</p>
+  <p>Amount: Rs 1111</p>
+  <p>Duration: 10 hour</p>
+  <p>Win Amount: Rs 1210</p>
   <input
     id="input-5"
     class="input-code"
@@ -131,7 +43,7 @@
     placeholder="Enter 5-digit code after payment"
   />
   <div class="button-container">
-    <button class="button" onclick="verifyCode(5, 7200, 2000)">Start</button>
+    <button class="button" onclick="verifyCode(5, 18000, 2000)">Start</button>
     <button class="button" onclick="window.location.href='deposit.html'">Buy</button>
   </div>
   <div class="error" id="error-5"></div>
@@ -142,7 +54,7 @@
 <div class="container" id="level-6">
   <h2>Level 6</h2>
   <p>Amount: Rs 3333</p>
-  <p>Duration: 1 hour OFFER</p>
+  <p>Duration: 1 hour</p>
   <p>Win Amount: Rs 5555</p>
   <input
     id="input-6"
@@ -151,7 +63,7 @@
     placeholder="Enter 5-digit code after payment"
   />
   <div class="button-container">
-    <button class="button" onclick="verifyCode(6, 7200, 5555)">Start</button>
+    <button class="button" onclick="verifyCode(6, 3600, 5555)">Start</button>
     <button class="button" onclick="window.location.href='deposit.html'">Buy</button>
   </div>
   <div class="error" id="error-6"></div>
@@ -329,8 +241,8 @@
   
       // Unique five-digit codes for each level
       const correctCodes = {
-        1: "543&&",
-        2: "9876&",
+        1: "54321",
+        2: "98765",
         3: "13579",
         4: "24680",
         5: "11223",
