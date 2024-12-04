@@ -4,227 +4,75 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Payment Page</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #fff;
-        color: #000;
-      }
-
-      .container {
-        padding: 20px;
-        max-width: 400px;
-        margin: 0 auto;
-        text-align: center;
-      }
-
-      .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .balance {
-        font-size: 24px;
-        color: #00aaff;
-      }
-
-      .time-container {
-        text-align: right;
-      }
-
-      .time {
-        font-size: 18px;
-      }
-
-      hr {
-        margin: 20px 0;
-        border: 1px solid #ddd;
-      }
-
-      .upi-id {
-        font-size: 18px;
-        color: red;
-        margin: 10px 0;
-      }
-
-      .qr-code {
-        margin: 20px 0;
-        text-align: center;
-      }
-
-      .qr-code img {
-        max-width: 100%;
-        height: auto;
-      }
-
-      .instructions {
-        font-size: 16px;
-        color: orange;
-        margin: 20px 0;
-      }
-
-      .payment-options {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-        gap: 10px;
-        margin: 20px 0;
-      }
-
-      .payment-option {
-        position: relative;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .payment-option img {
-        max-width: 50px;
-        max-height: 50px;
-      }
-
-      .selected {
-        border-color: green;
-      }
-
-      .selected::before {
-        content: "✔";
-        position: absolute;
-        top: 5px;
-        left: 5px;
-        font-size: 20px;
-        color: green;
-      }
-
-      .utr-input {
-        margin: 20px 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .utr-input input {
-        padding: 10px;
-        font-size: 16px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        width: 100%;
-        max-width: 150px;
-        margin-right: 10px;
-      }
-
-      .utr-input button {
-        padding: 10px;
-        font-size: 16px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-
-      .important-reminder {
-        font-size: 14px;
-        color: red;
-        margin: 20px 0;
-        text-align: left;
-      }
-
-      .warning {
-        background-color: #f9f9f9;
-        border-left: 5px solid #007bff;
-        padding: 10px;
-        margin-top: 20px;
-        font-size: 12px;
-        text-align: left;
-      }
-
-      .warning span {
-        font-weight: bold;
-      }
-
-      /* Media Queries for Responsiveness */
-      @media (max-width: 600px) {
-        .container {
-          padding: 10px;
-        }
-
-        .balance {
-          font-size: 20px;
-        }
-
-        .time {
-          font-size: 16px;
-        }
-
-        .upi-id {
-          font-size: 16px;
-        }
-
-        .instructions {
-          font-size: 14px;
-        }
-
-        .important-reminder {
-          font-size: 12px;
-        }
-
-        .warning {
-          font-size: 10px;
-        }
-      }
-    </style>
   </head>
 
   <body>
-    <div class="container">
-      <div class="header">
-        <span class="balance">₹ </span>
-        <div class="time-container">
-          <span class="time" id="timer">05:50</span>
+    <div class="container" style="padding: 20px; max-width: 400px; margin: 0 auto; text-align: center;">
+      <div class="header" style="display: flex; justify-content: space-between; align-items: center;">
+        <span class="balance" style="font-size: 24px; color: #00aaff;">₹ 100.00</span>
+        <div class="time-container" style="text-align: right;">
+          <span class="time" id="timer" style="font-size: 18px;">05:50</span>
         </div>
       </div>
-      <hr />
-      <div class="upi-id">UPI ID: sailakannans@okaxis</div>
-      <div class="qr-code">
-        <img src="QR.jpg" alt="QR Code" />
+      <hr style="margin: 20px 0; border: 1px solid #ddd;" />
+      <div class="upi-id" style="font-size: 18px; color: red; margin: 10px 0;">UPI ID: sailakannans@okaxis</div>
+      <div class="qr-code" style="margin: 20px 0; text-align: center;">
+        <img
+          src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=sailakannans@okaxis&pn=Sai%20Lakannan&am=100.00&cu=INR"
+          alt="QR Code"
+          style="max-width: 100%; height: auto;"
+        />
       </div>
-      <div class="instructions">Have you paid successfully?</div>
-      <div class="payment-options">
-        <div class="payment-option" onclick="selectPaymentOption(this)">
-          <img src="download (1).jfif" alt="Paytm" />
+      <div class="instructions" style="font-size: 16px; color: orange; margin: 20px 0;">Have you paid successfully?</div>
+      <div
+        class="payment-options"
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; margin: 20px 0;"
+      >
+        <div
+          class="payment-option"
+          style="padding: 10px; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; text-align: center;"
+          onclick="redirectToApp('Paytm')"
+        >
+          <img src="download (1).jfif" alt="Paytm" style="max-width: 50px; max-height: 50px;" />
         </div>
-        <div class="payment-option" onclick="selectPaymentOption(this)">
-          <img src="download (2).jfif" alt="PhonePe" />
+        <div
+          class="payment-option"
+          style="padding: 10px; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; text-align: center;"
+          onclick="redirectToApp('PhonePe')"
+        >
+          <img src="download (2).jfif" alt="PhonePe" style="max-width: 50px; max-height: 50px;" />
         </div>
-        <div class="payment-option" onclick="selectPaymentOption(this)">
-          <img src="download (3).jfif" alt="GooglePay" />
+        <div
+          class="payment-option"
+          style="padding: 10px; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; text-align: center;"
+          onclick="redirectToApp('GooglePay')"
+        >
+          <img src="download (3).jfif" alt="GooglePay" style="max-width: 50px; max-height: 50px;" />
         </div>
-        <div class="payment-option" onclick="selectPaymentOption(this)">
-          <img src="th.jfif" alt="Other Bank" />
+        <div
+          class="payment-option"
+          style="padding: 10px; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; text-align: center;"
+          onclick="redirectToApp('Other')"
+        >
+          <img src="th.jfif" alt="Other Bank" style="max-width: 50px; max-height: 50px;" />
         </div>
       </div>
-      <form onsubmit="handleSubmit(event)">
-        <div class="utr-input">
+      <form onsubmit="handleSubmit(event)" style="margin: 20px 0;">
+        <div class="utr-input" style="display: flex; justify-content: center; align-items: center;">
           <input
             type="text"
             id="message"
             placeholder="Input 12 digits here"
             required
+            style="padding: 10px; font-size: 16px; border: 1px solid #ddd; border-radius: 5px; width: 100%; max-width: 150px; margin-right: 10px;"
           />
-          <button type="submit">Submit</button>
+          <button type="submit" style="padding: 10px; font-size: 16px; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Submit</button>
         </div>
       </form>
-      <div class="important-reminder">
+      <div class="important-reminder" style="font-size: 14px; color: red; margin: 20px 0; text-align: left;">
         Important reminder: After completing the UPI transaction, please backfill Ref No./UTR No./Google Pay: UPI Transaction ID/Freecharge: Transaction ID (12 digits). If you do not backfill UTR, 100% of the deposit transaction will fail. Please be sure to backfill!
       </div>
-      <div class="warning">
+      <div class="warning" style="background-color: #f9f9f9; border-left: 5px solid #007bff; padding: 10px; margin-top: 20px; font-size: 12px; text-align: left;">
         <span>Warning:</span> Please confirm that the above account information is correct, and use this account to make the payment, otherwise the payment will not be completed correctly.
       </div>
     </div>
@@ -266,27 +114,38 @@
         alert("Payment submitted: " + message);
       }
 
-      // Deep links for payment apps
-      const paymentDeepLinks = {
-        Paytm: "paytm://upi",
-        PhonePe: "phonepe://upi",
-        GooglePay: "gpay://upi",
-        "Other Bank": "intent://scan/#Intent;scheme=upi;package=com.phonepe.app;end", // Example for another UPI app
-      };
+      // Redirect to payment app
+      function redirectToApp(appName) {
+        const qrData = {
+          pa: "sailakannans@okaxis", // UPI ID
+          pn: "Sai Lakannan", // Payee Name
+          am: "100.00", // Amount
+          cu: "INR", // Currency
+        };
 
-      // Select payment option and redirect
-      function selectPaymentOption(element) {
-        const options = document.querySelectorAll(".payment-option");
-        options.forEach((option) => option.classList.remove("selected"));
-        element.classList.add("selected");
+        const query = new URLSearchParams(qrData).toString();
+        let deepLink = "";
 
-        const paymentMethod = element.querySelector("img").alt;
-
-        if (paymentDeepLinks[paymentMethod]) {
-          window.location.href = paymentDeepLinks[paymentMethod];
-        } else {
-          alert("This payment method is not supported.");
+        switch (appName) {
+          case "Paytm":
+            deepLink = `paytmmp://pay?${query}`;
+            break;
+          case "PhonePe":
+            deepLink = `phonepe://upi/pay?${query}`;
+            break;
+          case "GooglePay":
+            deepLink = `upi://pay?${query}`;
+            break;
+          case "Other":
+            deepLink = `upi://pay?${query}`;
+            break;
+          default:
+            alert("Unsupported payment app");
+            return;
         }
+
+        // Automatically open the selected app
+        window.location.href = deepLink;
       }
     </script>
   </body>
