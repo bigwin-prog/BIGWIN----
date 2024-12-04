@@ -13,14 +13,22 @@
     </div>
 
     <div class="button-container">
-      <button class="button" onclick="window.location.href='Withdraw.html'">
+      <button class="button" onclick="window.location.href='withdraw.html'">
         Withdraw
       </button>
       <button class="button" onclick="openProfileModal()">Profile</button>
       <button class="button" onclick="openProfileModal()">Invite</button>
-
     </div>
-    
+    <div class="containers">
+      <div class="daily-bonus-titles">Daily Bonus</div>
+      <button
+        id="claim-bonus"
+        class="bonus-buttons"
+        onclick="claimDailyBonus()"
+      >
+        Claim
+      </button>
+      <p id="bonus-messages"></p>
     </div>
     <div id="profile-modal" class="modal">
       <div class="modal-content">
@@ -28,132 +36,244 @@
         <button class="close-button" onclick="closeProfile()">Close</button>
       </div>
     </div>
-<!-- -->
 
-<!-- Level 5 -->
-<div class="container" id="level-5">
-  <h2>Level 5</h2>
-  <p>Amount: Rs 1111</p>
-  <p>Duration: 10 hour</p>
-  <p>Win Amount: Rs 1210</p>
-  <input
-    id="input-5"
-    class="input-code"
-    type="text"
-    placeholder="Enter 5-digit code after payment"
-  />
-  <div class="button-container">
-    <button class="button" onclick="verifyCode(5, 18000, 2000)">Start</button>
-    <button class="button" onclick="window.location.href='deposit.html'">Buy</button>
-  </div>
-  <div class="error" id="error-5"></div>
-  <div class="timer" id="timer5"></div>
-</div>
+    <!-- Level 1 -->
+    <div class="container" id="level-1">
+      <h2>Level 1</h2>
+      <p>Amount: 29</p>
+      <p>Duration: 1 hour</p>
+      <p>Win Amount: Rs 99</p>
+      <input
+        id="input-1"
+        class="input-code"
+        type="text"
+        placeholder="Enter 5-digit code after payment"
+      />
+      <div class="button-container">
+        <button class="button" onclick="verifyCode(1, 3600, 20)">Start</button>
+        <button class="button" onclick="window.location.href='deposit.html'">
+          Buy
+        </button>
+      </div>
+      <div class="error" id="error-1"></div>
+      <div class="timer" id="timer1"></div>
+    </div>
 
-<!-- Level 6 -->
-<div class="container" id="level-6">
-  <h2>Level 6</h2>
-  <p>Amount: Rs 3333</p>
-  <p>Duration: 1 hour</p>
-  <p>Win Amount: Rs 5555</p>
-  <input
-    id="input-6"
-    class="input-code"
-    type="text"
-    placeholder="Enter 5-digit code after payment"
-  />
-  <div class="button-container">
-    <button class="button" onclick="verifyCode(6, 3600, 5555)">Start</button>
-    <button class="button" onclick="window.location.href='deposit.html'">Buy</button>
-  </div>
-  <div class="error" id="error-6"></div>
-  <div class="timer" id="timer6"></div>
-</div>
+    <!-- Level 2 -->
+    <div class="container" id="level-2">
+      <h2>Level 2</h2>
+      <p>Amount: 299</p>
+      <p>Duration: 1 hour</p>
+      <p>Win Amount: Rs 499</p>
+      <input
+        id="input-2"
+        class="input-code"
+        type="text"
+        placeholder="Enter 5-digit code after payment"
+      />
+      <div class="button-container">
+        <button class="button" onclick="verifyCode(2, 3600, 30)">Start</button>
+        <button class="button" onclick="window.location.href='deposit.html'">
+          Buy
+        </button>
+      </div>
+      <div class="error" id="error-2"></div>
+      <div class="timer" id="timer2"></div>
+    </div>
 
-<!-- Level 7 -->
-<div class="container" id="level-7">
-  <h2>Level 7</h2>
-  <p>Amount: Rs 5000</p>
-  <p>Duration: 20 hour</p>
-  <p>Win Amount: Rs 10000</p>
-  <input
-    id="input-7"
-    class="input-code"
-    type="text"
-    placeholder="Enter 5-digit code after payment"
-  />
-  <div class="button-container">
-    <button class="button" onclick="verifyCode(7, 25200, 10000)">Start</button>
-    <button class="button" onclick="window.location.href='deposit.html'">Buy</button>
-  </div>
-  <div class="error" id="error-7"></div>
-  <div class="timer" id="timer7"></div>
-</div>
+    <!-- Level 3 -->
+    <div class="container" id="level-3">
+      <h2>Level 3</h2>
+      <p>Amount: Rs 1999</p>
+      <p>Duration: 1 hour</p>
+      <p>Win Amount: Rs 3999</p>
+      <input
+        id="input-3"
+        class="input-code"
+        type="text"
+        placeholder="Enter 5-digit code after payment"
+      />
+      <div class="button-container">
+        <button class="button" onclick="verifyCode(3, 3600, 1599)">
+          Start
+        </button>
+        <button class="button" onclick="window.location.href='deposit.html'">
+          Buy
+        </button>
+      </div>
+      <div class="error" id="error-3"></div>
+      <div class="timer" id="timer3"></div>
+    </div>
 
-<!-- Level 8 -->
-<div class="container" id="level-8">
-  <h2>Level 8</h2>
-  <p>Amount: Rs 10000</p>
-  <p>Duration: 25 hour</p>
-  <p>Win Amount: Rs 20000</p>
-  <input
-    id="input-8"
-    class="input-code"
-    type="text"
-    placeholder="Enter 5-digit code after payment"
-  />
-  <div class="button-container">
-    <button class="button" onclick="verifyCode(8, 28800, 20000)">Start</button>
-    <button class="button" onclick="window.location.href='deposit.html'">Buy</button>
-  </div>
-  <div class="error" id="error-8"></div>
-  <div class="timer" id="timer8"></div>
-</div>
+    <!-- Level 4 -->
+    <div class="container" id="level-4">
+      <h2>Level 4</h2>
+      <p>Amount: Rs 2499 (Invest to play)</p>
+      <p>Duration: 1 hour OFFER</p>
+      <p>Win Amount: Rs 200 daily (40 DAYS)</p>
+      <input
+        id="input-4"
+        class="input-code"
+        type="text"
+        placeholder="Enter 5-digit code after payment"
+      />
+      <div class="button-container">
+        <button class="button" onclick="verifyCode(4, 3600, 1000)">
+          Start
+        </button>
+        <button class="button" onclick="window.location.href='deposit.html'">
+          Buy
+        </button>
+      </div>
+      <div class="error" id="error-4"></div>
+      <div class="timer" id="timer4"></div>
+    </div>
 
-<!-- Level 9 -->
-<div class="container" id="level-9">
-  <h2>Level 9</h2>
-  <p>Amount: Rs 20000</p>
-  <p>Duration: 30 hour</p>
-  <p>Win Amount: Rs 40000</p>
-  <input
-    id="input-9"
-    class="input-code"
-    type="text"
-    placeholder="Enter 5-digit code after payment"
-  />
-  <div class="button-container">
-    <button class="button" onclick="verifyCode(9, 32400, 40000)">Start</button>
-    <button class="button" onclick="window.location.href='deposit.html'">Buy</button>
-  </div>
-  <div class="error" id="error-9"></div>
-  <div class="timer" id="timer9"></div>
-</div>
+    <!-- Level 5 -->
+    <div class="container" id="level-5">
+      <h2>Level 5</h2>
+      <p>Amount: Rs 2999 OFFER</p>
+      <p>Duration: 1 hour</p>
+      <p>Win Amount: Rs 399 daily (40 DAYS)</p>
+      <input
+        id="input-5"
+        class="input-code"
+        type="text"
+        placeholder="Enter 5-digit code after payment"
+      />
+      <div class="button-container">
+        <button class="button" onclick="verifyCode(5, 3600, 2000)">
+          Start
+        </button>
+        <button class="button" onclick="window.location.href='deposit.html'">
+          Buy
+        </button>
+      </div>
+      <div class="error" id="error-5"></div>
+      <div class="timer" id="timer5"></div>
+    </div>
 
-<!-- Level 10 -->
-<div class="container" id="level-10">
-  <h2>Level 10</h2>
-  <p>Amount: Rs 33333</p>
-  <p>Duration: 10 hour</p>
-  <p>Win Amount: Rs 66666</p>
-  <input
-    id="input-10"
-    class="input-code"
-    type="text"
-    placeholder="Enter 5-digit code after payment"
-  />
-  <div class="button-container">
-    <button class="button" onclick="verifyCode(10, 36000, 66666)">Start</button>
-    <button class="button" onclick="window.location.href='deposit.html'">Buy</button>
-  </div>
-  <div class="error" id="error-10"></div>
-  <div class="timer" id="timer10"></div>
-</div>
+    <!-- Level 6 -->
+    <div class="container" id="level-6">
+      <h2>Level 6</h2>
+      <p>Amount: Rs 3333</p>
+      <p>Duration: 1 hour OFFER</p>
+      <p>Win Amount: Rs 5555</p>
+      <input
+        id="input-6"
+        class="input-code"
+        type="text"
+        placeholder="Enter 5-digit code after payment"
+      />
+      <div class="button-container">
+        <button class="button" onclick="verifyCode(6, 3600, 5555)">
+          Start
+        </button>
+        <button class="button" onclick="window.location.href='deposit.html'">
+          Buy
+        </button>
+      </div>
+      <div class="error" id="error-6"></div>
+      <div class="timer" id="timer6"></div>
+    </div>
 
+    <!-- Level 7 -->
+    <div class="container" id="level-7">
+      <h2>Level 7</h2>
+      <p>Amount: Rs 5000</p>
+      <p>Duration: 1 hour</p>
+      <p>Win Amount: Rs 10000</p>
+      <input
+        id="input-7"
+        class="input-code"
+        type="text"
+        placeholder="Enter 5-digit code after payment"
+      />
+      <div class="button-container">
+        <button class="button" onclick="verifyCode(7, 3600, 10000)">
+          Start
+        </button>
+        <button class="button" onclick="window.location.href='deposit.html'">
+          Buy
+        </button>
+      </div>
+      <div class="error" id="error-7"></div>
+      <div class="timer" id="timer7"></div>
+    </div>
+
+    <!-- Level 8 -->
+    <div class="container" id="level-8">
+      <h2>Level 8</h2>
+      <p>Amount: Rs 10000</p>
+      <p>Duration: 1 hour</p>
+      <p>Win Amount: Rs 20000</p>
+      <input
+        id="input-8"
+        class="input-code"
+        type="text"
+        placeholder="Enter 5-digit code after payment"
+      />
+      <div class="button-container">
+        <button class="button" onclick="verifyCode(8, 3600, 20000)">
+          Start
+        </button>
+        <button class="button" onclick="window.location.href='deposit.html'">
+          Buy
+        </button>
+      </div>
+      <div class="error" id="error-8"></div>
+      <div class="timer" id="timer8"></div>
+    </div>
+
+    <!-- Level 9 -->
+    <div class="container" id="level-9">
+      <h2>Level 9</h2>
+      <p>Amount: Rs 20000</p>
+      <p>Duration: 1 hour</p>
+      <p>Win Amount: Rs 40000</p>
+      <input
+        id="input-9"
+        class="input-code"
+        type="text"
+        placeholder="Enter 5-digit code after payment"
+      />
+      <div class="button-container">
+        <button class="button" onclick="verifyCode(9, 3600, 40000)">
+          Start
+        </button>
+        <button class="button" onclick="window.location.href='deposit.html'">
+          Buy
+        </button>
+      </div>
+      <div class="error" id="error-9"></div>
+      <div class="timer" id="timer9"></div>
+    </div>
+
+    <!-- Level 10 -->
+    <div class="container" id="level-10">
+      <h2>Level 10</h2>
+      <p>Amount: Rs 33333</p>
+      <p>Duration: 1 hour</p>
+      <p>Win Amount: Rs 66666</p>
+      <input
+        id="input-10"
+        class="input-code"
+        type="text"
+        placeholder="Enter 5-digit code after payment"
+      />
+      <div class="button-container">
+        <button class="button" onclick="verifyCode(10, 3600, 66666)">
+          Start
+        </button>
+        <button class="button" onclick="window.location.href='deposit.html'">
+          Buy
+        </button>
+      </div>
+      <div class="error" id="error-10"></div>
+      <div class="timer" id="timer10"></div>
+    </div>
   </body>
   <script>
-
-    
     // Function to set a cookie with a specific expiry
     function setCookie(name, value, days) {
       const date = new Date();
@@ -162,7 +282,7 @@
         value
       )};expires=${date.toUTCString()};path=/`;
     }
-  
+
     // Function to get a cookie by name
     function getCookie(name) {
       const cookies = document.cookie.split(";");
@@ -174,7 +294,7 @@
       }
       return null;
     }
-  
+
     // Update the wallet balance
     function updateBalance(amount) {
       let currentBalance = parseFloat(getCookie("balance")) || 0;
@@ -184,13 +304,13 @@
         "balanceAmount"
       ).textContent = `Rs ${currentBalance.toFixed(2)}`;
     }
-  
+
     // Start a timer for a level
     function startTimer(level, duration, winAmount) {
       let timer = duration;
       const timerId = `timer${level}`;
       const element = document.getElementById(timerId);
-  
+
       element.style.display = "block";
       const interval = setInterval(() => {
         const minutes = Math.floor(timer / 60);
@@ -199,9 +319,9 @@
           seconds < 10 ? "0" : ""
         }${seconds}`;
         timer--;
-  
+
         setCookie(`timer_${level}`, timer, 365);
-  
+
         if (timer < 0) {
           clearInterval(interval);
           element.innerHTML = "LEVEL COMPLETED";
@@ -211,7 +331,7 @@
         }
       }, 1000);
     }
-  
+
     // Mark a level as completed
     function markLevelComplete(level) {
       const container = document.getElementById(`level-${level}`);
@@ -233,16 +353,16 @@
       levelCompleteMessage.style.borderRadius = "5px";
       container.appendChild(levelCompleteMessage);
     }
-  
+
     // Verify the entered code for a level
     function verifyCode(level, duration, winAmount) {
       const input = document.getElementById(`input-${level}`);
       const errorMsg = document.getElementById(`error-${level}`);
-  
+
       // Unique five-digit codes for each level
       const correctCodes = {
-        1: "54321",
-        2: "98765",
+        1: "543&&",
+        2: "9876&",
         3: "13579",
         4: "24680",
         5: "11223",
@@ -252,13 +372,13 @@
         9: "99001",
         10: "12345",
       };
-  
+
       // Check if the level is already completed
       if (getCookie(`level${level}Used`) === "true") {
         errorMsg.textContent = "Level already completed!";
         return;
       }
-  
+
       // Verify the code
       if (input.value === correctCodes[level]) {
         errorMsg.textContent = "";
@@ -272,26 +392,29 @@
         errorMsg.textContent = "Enter correct code";
       }
     }
-  
+
     // Initialize wallet balance and daily bonus
     function initialize() {
       const walletBalance = parseInt(getCookie("balance") || "0", 10);
       document.getElementById("balanceAmount").textContent = walletBalance;
     }
-  
+
     // Claim daily bonus logic
     function claimDailyBonus() {
       const lastClaimTime = getCookie("lastClaimTime");
       const currentTime = new Date().getTime();
       const oneDay = 24 * 60 * 60 * 1000;
-  
-      if (!lastClaimTime || currentTime - parseInt(lastClaimTime, 10) >= oneDay) {
+
+      if (
+        !lastClaimTime ||
+        currentTime - parseInt(lastClaimTime, 10) >= oneDay
+      ) {
         // Add ₹10 to the wallet balance
         const currentBalance = parseInt(getCookie("balance") || "0", 10);
         const newBalance = currentBalance + 10;
         setCookie("balance", newBalance, 365);
         setCookie("lastClaimTime", currentTime, 365);
-  
+
         // Update UI
         document.getElementById("balanceAmount").textContent = newBalance;
         document.getElementById("bonus-messages").textContent =
@@ -302,19 +425,19 @@
           "You can only claim once per day!";
       }
     }
-  
+
     // Open the modal
     function openProfileModal() {
       const modal = document.getElementById("profile-modal");
       modal.style.display = "block";
     }
-  
+
     // Close the modal
     function closeProfile() {
       const modal = document.getElementById("profile-modal");
       modal.style.display = "none";
     }
-  
+
     // Close the modal when clicking outside the content
     window.onclick = function (event) {
       const modal = document.getElementById("profile-modal");
@@ -322,7 +445,7 @@
         modal.style.display = "none";
       }
     };
-  
+
     // Initialize levels and timers on page load
     window.onload = () => {
       const levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -360,12 +483,12 @@
             timerElement.innerHTML = "";
           }
         }
-  
+
         if (getCookie(`level${level}Used`) === "true") {
           markLevelComplete(level);
         }
       });
-  
+
       const savedBalance = getCookie("balance");
       if (savedBalance) {
         document.getElementById(
@@ -375,9 +498,8 @@
         updateBalance(0);
       }
     };
-  
+
     // Initialize wallet on page load
     initialize();
   </script>
-  
 </html>
